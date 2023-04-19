@@ -1,0 +1,188 @@
+{
+  "version": 1,
+  "projects": {
+    "omp-prototype": {
+      "projectType": "application",
+      "root": "apps/omp-prototype",
+      "sourceRoot": "apps/omp-prototype/src",
+      "prefix": "mns",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "preserveSymlinks": true,
+            "outputPath": "dist/apps/omp-prototype",
+            "index": "apps/omp-prototype/src/index.html",
+            "main": "apps/omp-prototype/src/main.ts",
+            "polyfills": "apps/omp-prototype/src/polyfills.ts",
+            "tsConfig": "apps/omp-prototype/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              {
+                "glob": "favicon.ico",
+                "input": "libs/shared/assets/src",
+                "output": "./"
+              },
+              {
+                "glob": "**/*",
+                "input": "libs/shared/assets/src/assets",
+                "output": "assets"
+              }
+            ],
+            "styles": [
+              "apps/omp-prototype/src/styles.scss",
+              "libs/shared/styles/src/lib/_index.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles",
+                "libs/shared/styles/src/lib/"
+              ]
+            },
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/omp-prototype/src/environments/environment.ts",
+                  "with": "apps/omp-prototype/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "omp-prototype:build:production"
+            },
+            "development": {
+              "browserTarget": "omp-prototype:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "omp-prototype:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/omp-prototype/src/**/*.ts",
+              "apps/omp-prototype/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/omp-prototype"
+          ],
+          "options": {
+            "jestConfig": "apps/omp-prototype/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "omp-prototype-e2e": {
+      "root": "apps/omp-prototype-e2e",
+      "sourceRoot": "apps/omp-prototype-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/omp-prototype-e2e/cypress.json",
+            "devServerTarget": "omp-prototype:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "omp-prototype:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "apps/omp-prototype-e2e/**/*.{js,ts}"
+            ]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": [
+        "omp-prototype"
+      ]
+    },
+    "shared-assets": {
+      "projectType": "library",
+      "root": "libs/shared/assets",
+      "sourceRoot": "libs/shared/assets/src",
+      "prefix": "mns",
+      "architect": {},
+      "tags": [
+        "scope:shared",
+        "type:assets"
+      ]
+    },
+    "shared-material": {
+      "projectType": "library",
+      "root": "libs/shared/material",
+      "sourceRoot": "libs/shared/material/src",
+      "prefix": "mns",
+      "architect": {},
+      "tags": [
+        "scope:shared",
+        "type:library"
+      ]
+    },
+    "shared-styles": {
+      "projectType": "library",
+      "root": "libs/shared/styles",
+      "sourceRoot": "libs/shared/styles/src",
+      "prefix": "mns",
+      "architect": {},
+      "tags": [
+        "scope:shared",
+        "type:styles"
+      ]
+    }
+  }
+}

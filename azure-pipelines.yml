@@ -1,0 +1,26 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '14.17.6'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install -g @angular/cli
+    npm install
+    npx nx-cloud start-ci-run
+    npx nx run-many --target=lint --all --parallel 
+    npx nx run-many --target=test --all --parallel
+    npx nx run-many --target=build --all --parallel
+    npx nx-cloud stop-all-agents
+  displayName: 'npm install and build'
